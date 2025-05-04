@@ -8,11 +8,15 @@ showToc: false
 
 {{< figure src="images/beetle-on-trailer.jpg" width="80%" class="hero" alt="VW Beetle on trailer" >}}
 
-a:
-{{< figure src="images/a.jpg" width="80%" alt="a" >}}
+{{< resize-img src="images/beetle-on-trailer.jpg" alt="VW Beetle on trailer" width="80%" >}}
+VW Beetle on trailer
+{{< /resize-img >}}
 
 ---
-b:
-{{< figure src="images/b.jpg" width="80%" alt="b" >}}
+hero
 
-WHY IS IT SO HARD TO MAKE IMAGES WORK
+{{< resize-img src="images/beetle-on-trailer.jpg" class="hero" alt="VW Beetle on trailer" width="80%" >}}
+VW Beetle on trailer
+{{< /resize-img >}}
+---
+end
