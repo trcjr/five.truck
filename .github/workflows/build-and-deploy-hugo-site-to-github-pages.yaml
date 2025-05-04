@@ -35,7 +35,7 @@ jobs:
         with:
           branch: gh-pages  # Target branch for GitHub Pages
           folder: public    # Folder to deploy, typically the `public` folder after `hugo` build
-          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate
+          token: ${{ secrets.GH_TOKEN }}  # GitHub token to authenticate
           clean: true       # Clean the gh-pages branch before pushing (ensure clean deploy)
 
       - name: Commit changes (optional)
