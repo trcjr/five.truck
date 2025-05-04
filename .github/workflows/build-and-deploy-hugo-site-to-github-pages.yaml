@@ -58,6 +58,17 @@ jobs:
           echo "Checking mounted theme folder (themes/PaperMod)..."
           ls -lah themes/PaperMod || echo "themes/PaperMod not found"
 
+      - name: Install exiftool
+        run: sudo apt-get update && sudo apt-get install -y libimage-exiftool-perl
+
+      - name: Run EXIF metadata check
+        run: |
+          bash scripts/check-exif.sh
+          if [ $? -ne 0 ]; then
+            echo "EXIF metadata found. Aborting build to prevent PII leaks."
+            exit 1
+          fi
+
       - name: Build Hugo site
         run: |
           hugo --minify
