@@ -1,7 +1,6 @@
 ---
-date: '2025-05-04T12:15:11-04:00'
-draft: false
-title: 'MAOR IMAGES NOT WORKINT'
+date: '2025-05-04T16:55:19-04:00'
+title: '2025 05 04 Lol Wut'
 ---
 
 {{ $image := resources.Get "beetle-after-fire.jpg" }}

@@ -1,0 +1,12 @@
+{{ if .IsPage }}
+<script type="application/ld+json">
+  {{- $schema := dict
+    "@context" "https://schema.org"
+    "@type" "BlogPosting"
+    "headline" .Title
+    "datePublished" (.Date.Format "2006-01-02")
+    "author" (dict "@type" "Person" "name" (.Site.Author.name | default "Anonymous"))
+  | jsonify }}
+  {{- $schema | safeHTML }}
+</script>
+{{ end }}
