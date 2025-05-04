@@ -4,25 +4,11 @@ title: '2025 05 04 Lol Wut'
 summary: "Debugging Hugo image processing and template leaks."
 ---
 
-{{%/* markdown */%}}
-{{ with .Resources.Get "beetle-after-fire.jpg" }}
-  {{ $resized := .Resize "800x" }}
-  <img src="{{ $resized.RelPermalink }}" alt="Beetle After the Fire" loading="lazy">
-{{ else }}
-  <p><em>Beetle image missing.</em></p>
-{{ end }}
-{{%/* /markdown */%}}
 
-----
+Ok so here is a picture of the car after a fire happened or whatever
 
-bravo -
-{{%/* markdown */%}}
-{{ with .Resources.Get "bravo.jpg" }}
-  {{ $resized := .Resize "800x" }}
-  <img src="{{ $resized.RelPermalink }}" alt="Bravo image" loading="lazy">
-{{ else }}
-  <p><em>Bravo image missing.</em></p>
-{{ end }}
-{{%/* /markdown */%}}
+{{< resize-img src="beetle-after-fire.jpg" alt="Beetle After Fire" width="800x" >}}
+Aftermath of the incident.
+{{< /resize-img >}}
 
 YET ANOTHER IMAGES NOT WORKING
