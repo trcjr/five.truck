@@ -1,0 +1,16 @@
+{{/* override to disable broken JSON-LD output */}}
+{{/* leave this blank intentionally */}}
+{{ if .IsPage }}
+<pre style="background:#fdd;color:#000;padding:1em;white-space:pre-wrap;">
+START LOL ITS A PRE MAN LOOK ITS A PREEEEEE START
+{{- $schema := dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "datePublished" (.Date.Format "2006-01-02")
+  "author" (dict "@type" "Person" "name" (.Site.Author.name | default "Anonymous"))
+| jsonify }}
+{{ $schema }}
+END LOL ITS A PRE MAN LOOK ITS A PREEEEEE END
+</pre>
+{{ end }}
