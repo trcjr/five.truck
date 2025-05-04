@@ -33,10 +33,3 @@ markup:
   goldmark:
     renderer:
       unsafe: true
-
-module:
-  mounts:
-    - source: assets
-      target: assets
-    - source: static
-      target: assets
