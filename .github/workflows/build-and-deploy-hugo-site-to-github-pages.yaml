@@ -1,0 +1,45 @@
+name: Build and Deploy Hugo Site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.111.3'  # Specify the Hugo version here
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Build Hugo site
+        run: |
+          hugo --minify  # Builds the site with minification enabled
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # Target branch for GitHub Pages
+          folder: public    # Folder to deploy, typically the `public` folder after `hugo` build
+          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate
+          clean: true       # Clean the gh-pages branch before pushing (ensure clean deploy)
+
+      - name: Commit changes (optional)
+        run: |
+          git add .
+          git commit -m "Deploy Hugo site to GitHub Pages"
+          git push origin gh-pages

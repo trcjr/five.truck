@@ -6,7 +6,14 @@ summary: "The story of how this 1964 VW Beetle came into our lives and the journ
 showToc: false
 ---
 
-{{< figure src="images/beetle-on-trailer.jpg" width="100%" class="hero" alt="VW Beetle on trailer" >}}
+{{< figure src="images/beetle-on-trailer.jpg" width="80%" class="hero" alt="VW Beetle on trailer" >}}
+
+a:
+{{< figure src="images/a.jpg" width="80%" alt="a" >}}
+
+---
+b:
+{{< figure src="images/b.jpg" width="80%" alt="b" >}}
 
 Back in June 2016, while living in South Florida, I came across a Craigslist ad for a 1964 VW Beetle. I messaged the seller on the morning of June 8th, and just a few days later — on June 11th — we hit the road for Waycross, Tennessee to bring it home. The car cost $4,200.
 
