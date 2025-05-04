@@ -1,6 +1,6 @@
 baseURL: "/"
 languageCode: "en-us"
-title: "five.trucks"
+title: "five.truck"
 theme: "PaperMod"
 relativeURLs: true
 canonifyURLs: false
