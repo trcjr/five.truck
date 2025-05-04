@@ -14,14 +14,57 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
+      - name: Show Git commit info
+        run: |
+          echo "Commit SHA: ${{ github.sha }}"
+          git log -1
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "0.111.3"  # Use a specific Hugo version to avoid issues with future releases
 
+      - name: Show Hugo version and environment
+        run: |
+          hugo version
+          echo "Environment variables:"
+          env | sort
+
+      - name: Check Hugo config presence
+        run: |
+          echo "Looking for config.{toml,yaml,json}:"
+          ls -l config.* || echo "No config file found"
+          echo "Preview of config:"
+          head -n 20 config.* || echo "No readable config"
+
       - name: Build Hugo site
         run: |
           hugo --minify
+
+      - name: Debug public directory contents
+        run: |
+          echo "Checking if public/ exists:"
+          if [ -d "./public" ]; then
+            echo "public/ directory exists"
+          else
+            echo "ERROR: public/ directory is missing!"
+            exit 1
+          fi
+
+          echo "Contents of public/ directory:"
+          ls -lah ./public
+
+          echo "Full file list (recursive):"
+          find ./public
+
+          echo "Total files:"
+          find ./public -type f | wc -l
+
+          echo "Disk usage:"
+          du -sh ./public
+
+      - name: Display .gitignore (if exists)
+        run: cat .gitignore || echo ".gitignore not found"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
