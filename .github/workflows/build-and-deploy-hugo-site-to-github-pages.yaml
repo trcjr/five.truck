@@ -14,6 +14,9 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
       - name: Show Git commit info
         run: |
           echo "Commit SHA: ${{ github.sha }}"
