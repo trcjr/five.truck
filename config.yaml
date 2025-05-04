@@ -1,6 +1,6 @@
 baseURL: "/"
 languageCode: "en-us"
-title: "HUGO IMAGES IS HARD"
+title: "five.trucks"
 theme: "PaperMod"
 relativeURLs: true
 canonifyURLs: false
@@ -13,7 +13,7 @@ params:
   ShowShareButtons: true
   defaultTheme: auto
   displayFullLangName: true
-  description: "WHY IS IMAGES HARD"
+  description: "becuase four trucks are not enough"
   mainSections: ["posts", "about"]
   showFeaturedPost: true
 
