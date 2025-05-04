@@ -1,6 +1,6 @@
 baseURL: "/"
 languageCode: "en-us"
-title: "6307635 - Sea Blue & Sketchy 🌊🔌"
+title: "HUGO IMAGES IS HARD"
 theme: "PaperMod"
 relativeURLs: true
 canonifyURLs: false
@@ -13,7 +13,7 @@ params:
   ShowShareButtons: true
   defaultTheme: auto
   displayFullLangName: true
-  description: "Period-correct paint. Period-incorrect everything else."
+  description: "WHY IS IMAGES HARD"
   mainSections: ["posts", "about"]
   showFeaturedPost: true
 
