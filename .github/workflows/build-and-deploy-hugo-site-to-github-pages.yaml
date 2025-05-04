@@ -37,6 +37,23 @@ jobs:
           echo "Preview of config:"
           head -n 20 config.* || echo "No readable config"
 
+      - name: Debug available themes
+        run: |
+          echo "Listing contents of themes directory:"
+          ls -lah themes || echo "themes directory not found"
+          echo "Full theme file structure:"
+          find themes || echo "nothing found under themes"
+
+      - name: Debug Hugo Modules
+        run: |
+          echo "Running hugo mod graph (if using modules)..."
+          hugo mod graph || echo "Not using Hugo Modules or command failed"
+
+      - name: Check theme folder mounts
+        run: |
+          echo "Checking mounted theme folder (themes/PaperMod)..."
+          ls -lah themes/PaperMod || echo "themes/PaperMod not found"
+
       - name: Build Hugo site
         run: |
           hugo --minify
