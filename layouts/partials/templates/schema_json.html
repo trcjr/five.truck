@@ -10,7 +10,7 @@
 {{ $json := $schema | jsonify }}
 
 <!-- DEBUG: echo JSON to Hugo log -->
-{{ warnf "schema_json for page %q: %s" .RelPermalink $json }}
+{{ warnf "schema_json for page %q: |%s|" .RelPermalink $json }}
 
 <!-- Safe output -->
 <script type="application/ld+json">

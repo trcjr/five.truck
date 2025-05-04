@@ -1,8 +1,13 @@
 {{ $src := .Get "src" }}
 {{ $alt := .Get "alt" | default "image" }}
 {{ $width := .Get "width" | default "800x" }}
+{{ $resizePattern := `^\d+x?$|^x\d+$` }}
+
 {{ with .Page.Resources.GetMatch $src }}
-  {{ $resized := .Resize $width }}
+  {{ $resized := . }}
+  {{ if findRE $resizePattern $width }}
+    {{ $resized = .Resize $width }}
+  {{ end }}
   <figure>
     <img src="{{ $resized.RelPermalink }}" alt="{{ $alt }}">
     {{ with $.Inner }}
