@@ -15,7 +15,7 @@ check-exif: ## Run the EXIF metadata checker script
 	bash scripts/check-exif.sh
 
 strip-exif: ## Remove EXIF metadata from all images
-	STRIP=1 $(MAKE) check-exif
+	bash scripts/check-exif.sh --strip
 
 ##@ Verification
 

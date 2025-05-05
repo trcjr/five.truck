@@ -2,9 +2,19 @@
 echo "🔍 Checking for EXIF metadata in content images..."
 
 STRIP_MODE=0
-if [[ "$1" == "--strip" ]]; then
-  echo "✂️  Strip mode enabled: EXIF metadata will be removed from matching files."
+
+for arg in "$@"; do
+  if [[ "$arg" == "--strip" ]]; then
+    STRIP_MODE=1
+  fi
+done
+
+if [[ "$STRIP" == "1" ]]; then
   STRIP_MODE=1
+fi
+
+if [[ "$STRIP_MODE" -eq 1 ]]; then
+  echo "✂️  Strip mode enabled: EXIF metadata will be removed from matching files."
 fi
 
 HAS_EXIF=0
