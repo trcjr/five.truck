@@ -15,12 +15,14 @@ check-exif: ## Run the EXIF metadata checker script
 	bash scripts/check-exif.sh
 
 strip-exif: ## Remove EXIF metadata from all images
-	bash scripts/check-exif.sh --strip
+	STRIP=1 $(MAKE) check-exif
 
 ##@ Verification
 
 preflight: build check-exif ## Run local verification before pushing
 	@echo "✅ Preflight checklist complete. Ready for takeoff!"
+
+ci: build check-exif ## Run all checks exactly as CI does
 
 ##@ Help
 
