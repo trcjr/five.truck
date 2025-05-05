@@ -2,7 +2,7 @@
 
 ##@ 🧪 Verification
 
-preflight: build install-htmltest check-exif link-check check-warnings check-drafts lint-inclusive-language check-metadata ## Run local verification before pushing
+preflight: build install-htmltest check-exif link-check check-warnings check-drafts lint-inclusive-language check-metadata check-slugs-unique ## Run local verification before pushing
 	pre-commit run --all-files || (echo "❌ Pre-commit hooks failed." && exit 1)
 	@echo "✅ Preflight checklist complete. Ready for takeoff!"
 
@@ -13,6 +13,9 @@ test: check-exif link-check check-warnings check-drafts check-metadata ## Run lo
 
 check-metadata: ## Validate frontmatter metadata in content files
 	bash scripts/check-metadata.sh
+
+check-slugs-unique: ## Check for duplicate slugs/permalinks in content files
+	bash scripts/check-slugs-unique.sh
 
 check-exif: ## Run the EXIF metadata checker script
 	bash scripts/check-exif.sh

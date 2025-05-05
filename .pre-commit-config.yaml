@@ -15,3 +15,10 @@ repos:
         language: system
         types: [text]
         files: \.md$
+
+      - id: check-slugs-unique
+        name: Check slugs for uniqueness
+        entry: bash scripts/check-slugs-unique.sh
+        language: system
+        types: [text]
+        files: \.md$
