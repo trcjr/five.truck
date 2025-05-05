@@ -104,7 +104,7 @@ jobs:
           publish_dir: ./public
           publish_branch: gh-pages
           destination_dir: .
-          force_orphan: false  # Do not clear gh-pages branch, preserve develop/
+          force_orphan: true
           user_name: "GitHub Actions"
           user_email: "actions@github.com"
           commit_message: "Deploy from main: ${{ github.sha }}"
