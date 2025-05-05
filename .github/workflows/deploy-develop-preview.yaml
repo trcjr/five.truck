@@ -72,7 +72,7 @@ jobs:
           fi
 
       - name: Build Hugo site with baseURL "/develop/"
-        run: hugo --baseURL="/develop/" --destination=public/develop --minify
+        run: hugo --baseURL="/five.truck/develop/" --destination=public --minify
 
       - name: Debug public directory contents
         run: |
@@ -121,7 +121,7 @@ jobs:
         with:
           personal_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./public/develop
+          publish_dir: ./public
           destination_dir: develop
           force_orphan: false
           user_name: "GitHub Actions"
