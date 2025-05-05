@@ -38,23 +38,40 @@ lint-inclusive-language: ## Check for non-inclusive language
 
 install-htmltest: ## Install htmltest locally into ./bin
 	@mkdir -p ./bin
-	@set -x; \
-	OS=$$(uname -s | tr '[:upper:]' '[:lower:]') && echo "Detected OS: $$OS" && \
+	@set -e; \
+	echo "🔍 Starting htmltest installation..."; \
+	VERSION=0.17.0; \
+	OS_RAW=$$(uname -s); \
+	ARCH_RAW=$$(uname -m); \
+	echo "🔧 Raw OS: $$OS_RAW"; \
+	echo "🔧 Raw ARCH: $$ARCH_RAW"; \
+	OS=$$(echo "$$OS_RAW" | tr '[:upper:]' '[:lower:]'); \
 	case "$$OS" in \
-		linux) ARCHIVE=htmltest-linux-amd64.tar.gz ;; \
-		darwin) ARCHIVE=htmltest-darwin-amd64.tar.gz ;; \
-		*) echo "❌ Unsupported OS: $$OS" && exit 1 ;; \
-	esac && \
-	echo "Using archive: $$ARCHIVE" && \
-	URL="https://github.com/wjdp/htmltest/releases/latest/download/$$ARCHIVE" && \
-	echo "Downloading from URL: $$URL" && \
-	curl -sSL -o ./bin/htmltest.tar.gz "$$URL" && \
-	ls -l ./bin/htmltest.tar.gz && \
-	file ./bin/htmltest.tar.gz && \
-	tar -xzf ./bin/htmltest.tar.gz -C ./bin && \
-	chmod +x ./bin/htmltest && \
-	rm ./bin/htmltest.tar.gz && \
-	echo "✅ htmltest installed to ./bin/htmltest"
+		darwin) OS_NAME=macos ;; \
+		linux) OS_NAME=linux ;; \
+		*) echo "❌ Unsupported OS: $$OS_RAW" && exit 1 ;; \
+	esac; \
+	case "$$ARCH_RAW" in \
+		x86_64) ARCH_NAME=amd64 ;; \
+		arm64|aarch64) ARCH_NAME=arm64 ;; \
+		*) echo "❌ Unsupported architecture: $$ARCH_RAW" && exit 1 ;; \
+	esac; \
+	echo "✅ Normalized OS: $$OS_NAME"; \
+	echo "✅ Normalized ARCH: $$ARCH_NAME"; \
+	ARCHIVE="htmltest_$${VERSION}_$${OS_NAME}_$${ARCH_NAME}.tar.gz"; \
+	URL="https://github.com/wjdp/htmltest/releases/download/v$${VERSION}/$${ARCHIVE}"; \
+	echo "📦 Downloading: $$URL"; \
+	curl -sSL -o ./bin/htmltest.tar.gz "$$URL" || (echo "❌ Download failed!" && exit 1); \
+	echo "📁 File type of downloaded archive:"; \
+	file ./bin/htmltest.tar.gz || true; \
+	echo "📂 Listing contents of ./bin:"; \
+	ls -alh ./bin; \
+	echo "📦 Attempting to extract archive..."; \
+	tar -tzf ./bin/htmltest.tar.gz || (echo "❌ Archive is invalid or corrupted!" && exit 1); \
+	tar -xzf ./bin/htmltest.tar.gz -C ./bin || (echo "❌ Extraction failed!" && exit 1); \
+	chmod +x ./bin/htmltest || echo "⚠️ Couldn't set executable permission"; \
+	rm ./bin/htmltest.tar.gz; \
+	echo "✅ htmltest $$VERSION installed to ./bin/htmltest"
 
 serve: ## Run Hugo server with drafts and renderToMemory
 	hugo serve -D --renderToMemory
