@@ -38,15 +38,22 @@ lint-inclusive-language: ## Check for non-inclusive language
 
 install-htmltest: ## Install htmltest locally into ./bin
 	@mkdir -p ./bin
-	@OS=$$(uname -s | tr '[:upper:]' '[:lower:]') && \
+	@set -x; \
+	OS=$$(uname -s | tr '[:upper:]' '[:lower:]') && echo "Detected OS: $$OS" && \
 	case "$$OS" in \
 		linux) ARCHIVE=htmltest-linux-amd64.tar.gz ;; \
-		darwin) ARCHIVE=htmltest-macos-amd64.tar.gz ;; \
+		darwin) ARCHIVE=htmltest-darwin-amd64.tar.gz ;; \
 		*) echo "❌ Unsupported OS: $$OS" && exit 1 ;; \
 	esac && \
+	echo "Using archive: $$ARCHIVE" && \
 	URL="https://github.com/wjdp/htmltest/releases/latest/download/$$ARCHIVE" && \
-	curl -sSL $$URL | tar -xz -C ./bin && \
+	echo "Downloading from URL: $$URL" && \
+	curl -sSL -o ./bin/htmltest.tar.gz "$$URL" && \
+	ls -l ./bin/htmltest.tar.gz && \
+	file ./bin/htmltest.tar.gz && \
+	tar -xzf ./bin/htmltest.tar.gz -C ./bin && \
 	chmod +x ./bin/htmltest && \
+	rm ./bin/htmltest.tar.gz && \
 	echo "✅ htmltest installed to ./bin/htmltest"
 
 serve: ## Run Hugo server with drafts and renderToMemory
