@@ -1,4 +1,4 @@
-.PHONY: help serve build clean check-exif
+.PHONY: help serve build clean check-exif strip-exif
 
 ##@ Development
 
@@ -13,6 +13,14 @@ clean: ## Remove generated files
 
 check-exif: ## Run the EXIF metadata checker script
 	bash scripts/check-exif.sh
+
+strip-exif: ## Remove EXIF metadata from all images
+	STRIP=1 $(MAKE) check-exif
+
+##@ Verification
+
+preflight: build check-exif ## Run local verification before pushing
+	@echo "✅ Preflight checklist complete. Ready for takeoff!"
 
 ##@ Help
 
