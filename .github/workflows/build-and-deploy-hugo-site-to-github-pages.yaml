@@ -103,7 +103,8 @@ jobs:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./public
           publish_branch: gh-pages
-          force_orphan: true  # Caution: This will clear the gh-pages branch before pushing
+          destination_dir: .
+          force_orphan: false  # Do not clear gh-pages branch, preserve develop/
           user_name: "GitHub Actions"
           user_email: "actions@github.com"
           commit_message: "Deploy from main: ${{ github.sha }}"
