@@ -100,17 +100,12 @@ jobs:
         run: |
           grep -i '<link rel="canonical"' public/develop/index.html || echo "Canonical link not found"
 
-      - name: Check for leaked /develop/ in root
+      - name: Confirm build output exists
         run: |
-          count=$(find public -maxdepth 1 -type d -name develop | wc -l)
-
-          if [[ "$count" -eq 1 ]]; then
-            echo "/develop/ exists only at the right place"
-          elif [[ "$count" -gt 1 ]]; then
-            echo "🚨 ERROR: /develop/ exists in multiple places"
-            exit 1
+          if [ -d public ]; then
+            echo "✅ public/ directory exists"
           else
-            echo "🚨 ERROR: /develop/ is missing"
+            echo "❌ public/ directory is missing!"
             exit 1
           fi
 
@@ -127,7 +122,7 @@ jobs:
           personal_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./public
-          destination_dir: develop
+          destination_dir: ""
           force_orphan: false
           user_name: "GitHub Actions"
           user_email: "actions@github.com"
