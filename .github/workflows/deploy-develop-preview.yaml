@@ -122,7 +122,6 @@ jobs:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./public
-          destination_dir: develop
           force_orphan: false
           user_name: "GitHub Actions"
           user_email: "actions@github.com"
