@@ -76,6 +76,9 @@ jobs:
 
       - name: Debug public directory contents
         run: |
+          echo "Full file list (recursive):"
+          find ./public
+
           echo "Checking if public/ exists:"
           if [ -d "./public" ]; then
             echo "public/ directory exists"
@@ -86,9 +89,6 @@ jobs:
 
           echo "Contents of public/ directory:"
           ls -lah ./public
-
-          echo "Full file list (recursive):"
-          find ./public
 
           echo "Total files:"
           find ./public -type f | wc -l
@@ -116,13 +116,13 @@ jobs:
       - name: Display .gitignore (if exists)
         run: cat .gitignore || echo ".gitignore not found"
 
-      - name: Deploy to GitHub Pages in /develop/
+      - name: Deploy to GitHub Pages under /develop/
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./public
-          destination_dir: ""
+          destination_dir: develop
           force_orphan: false
           user_name: "GitHub Actions"
           user_email: "actions@github.com"
