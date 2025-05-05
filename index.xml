@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>five.truck</title><link>/</link><description>Recent content on five.truck</description><generator>Hugo -- 0.147.1</generator><language>en-us</language><lastBuildDate>Mon, 05 May 2025 11:14:15 -0400</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>2025 05 05 This Is a New Post</title><link>/posts/2025-05-05-this-is-a-new-post/</link><pubDate>Mon, 05 May 2025 11:14:15 -0400</pubDate><guid>/posts/2025-05-05-this-is-a-new-post/</guid><description>&lt;p>this is a brand new post&lt;/p></description></item><item><title>2025 05 04 Lol Wut</title><link>/posts/2025-05-04-lol-wut/</link><pubDate>Sun, 04 May 2025 16:55:19 -0400</pubDate><guid>/posts/2025-05-04-lol-wut/</guid><description>Debugging Hugo image processing and template leaks.</description></item><item><title>About THIS IMAGES NOT WORKING</title><link>/about/</link><pubDate>Sat, 11 Jun 2016 00:00:00 +0000</pubDate><guid>/about/</guid><description>&lt;figure class="hero">
+&lt;img loading="lazy" src="images/beetle-on-trailer.jpg"
+alt="VW Beetle on trailer" width="80%"/>
+&lt;/figure>
+&lt;figure>
+&lt;img src="./about/images/beetle-on-trailer.jpg" alt="VW Beetle on trailer">
+&lt;figcaption>
+VW Beetle on trailer
+&lt;/figcaption>
+&lt;/figure>
+&lt;hr>
+&lt;p>hero&lt;/p>
+&lt;h2 id="hahahugoshortcode1s2hbhb">
+&lt;figure>
+&lt;img src="./about/images/beetle-on-trailer.jpg" alt="VW Beetle on trailer">
+&lt;figcaption>
+VW Beetle on trailer
+&lt;/figcaption>
+&lt;/figure>
+&lt;/h2>
+&lt;p>end&lt;/p></description></item></channel></rss>
