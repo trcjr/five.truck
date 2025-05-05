@@ -72,7 +72,7 @@ jobs:
           fi
 
       - name: Build Hugo site with baseURL "/develop/"
-        run: hugo --baseURL="/five.truck/develop/" --destination=public --minify
+        run: hugo --baseURL="https://trcjr.github.io/five.truck/develop/" --destination=public --minify
 
       - name: Debug public directory contents
         run: |
