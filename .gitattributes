@@ -1,0 +1,7 @@
+# Treat image files as binary to avoid diffs and filter risks
+*.jpg binary
+*.jpeg binary
+*.png binary
+
+# Normalize text file line endings (optional)
+* text=auto
