@@ -4,6 +4,13 @@
 
 preflight: build install-htmltest check-exif link-check check-warnings check-drafts lint-inclusive-language check-metadata check-slugs-unique ## Run local verification before pushing
 	pre-commit run --all-files || (echo "❌ Pre-commit hooks failed." && exit 1)
+	@echo "Checking if public/ directory exists:"
+	@if [ -d "./public" ]; then \
+	  echo "✅ public/ directory exists."; \
+	else \
+	  echo "❌ public/ directory is missing!"; \
+	  exit 1; \
+	fi
 	@echo "✅ Preflight checklist complete. Ready for takeoff!"
 
 ci: preflight ## Run all checks exactly as CI does
