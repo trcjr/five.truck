@@ -1,31 +1,20 @@
 #!/bin/bash
 # Usage:
-#   ./scripts/check-exif.sh [--strip] [--ci]
-#   --strip : remove EXIF metadata from matching files
+#   ./scripts/check-exif.sh [--ci]
 #   --ci    : output tabular summary for CI environments
 
 echo "🔍 Checking for EXIF metadata in content images..."
 
-STRIP_MODE=0
 CI_MODE=0
 
 for arg in "$@"; do
-  if [[ "$arg" == "--strip" ]]; then
-    STRIP_MODE=1
-  elif [[ "$arg" == "--ci" ]]; then
+  if [[ "$arg" == "--ci" ]]; then
     CI_MODE=1
   fi
 done
 
-if [[ "$STRIP" == "1" ]]; then
-  STRIP_MODE=1
-fi
-
-if [[ "$STRIP_MODE" -eq 1 ]]; then
-  echo "✂️  Strip mode enabled: EXIF metadata will be removed from matching files."
-fi
-
 HAS_EXIF=0
+EXIF_FILES=()
 while IFS= read -r file; do
   echo ""
   echo "🖼️  Scanning file: $file"
@@ -37,7 +26,8 @@ while IFS= read -r file; do
   LOW=$(echo "$METADATA" | grep -E 'Image Width|Image Height|MIME Type|Encoding Process|Y Cb Cr Sub Sampling')
 
   if [[ -n "$HIGH" || -n "$MEDIUM" ]]; then
-    HAS_EXIF=1  # Set only when medium or high risk metadata is detected
+    HAS_EXIF=1
+    EXIF_FILES+=("$file")
 
     if [[ "$CI_MODE" -eq 1 ]]; then
       echo "Level | Field | Value"
@@ -50,24 +40,22 @@ while IFS= read -r file; do
       [[ -n "$MEDIUM" ]] && echo "🟠 Medium Risk Metadata:" && echo "$MEDIUM"
       [[ -n "$LOW" ]] && echo "🟢 Low Risk Metadata:" && echo "$LOW"
     fi
-
-    if [[ "$STRIP_MODE" -eq 1 ]]; then
-      echo "🧹 Removing EXIF metadata from: $file"
-      exiftool -all= -overwrite_original "$file"
-    fi
   else
     echo "✅ No significant EXIF metadata found."
   fi
 done < <(find ./content -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \))
 
-if [[ "$STRIP_MODE" -eq 0 ]]; then
-  if [ "$HAS_EXIF" -eq 1 ]; then
-    echo ""
-    echo "❌ Aborting: Some images contain EXIF metadata."
-    exit 1
-  else
-    echo "✅ No EXIF metadata found."
-  fi
+if [[ "$HAS_EXIF" -eq 1 ]]; then
+  echo ""
+  echo "🧹 Attempting to remove EXIF metadata from affected files..."
+
+  while IFS= read -r file; do
+    exiftool -all= -overwrite_original "$file" >/dev/null
+  done < <(find ./content -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \))
+
+  echo "❌ Commit blocked. EXIF metadata was removed. Please re-add any changed files and try again."
+  exit 1
 else
-  echo "✅ EXIF metadata removal complete."
+  echo "✅ No EXIF metadata found. Proceeding."
+  exit 0
 fi

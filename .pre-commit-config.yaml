@@ -2,12 +2,7 @@
 repos:
   - repo: local
     hooks:
-      - id: check-exif
-        name: Check for EXIF metadata
-        entry: bash scripts/check-exif.sh
-        language: system
-        types: [image]
-        files: \.(jpg|jpeg|png)$
+    
       - id: strip-exif
         name: Strip EXIF metadata from images
         entry: bash scripts/check-exif.sh --strip

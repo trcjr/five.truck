@@ -63,10 +63,9 @@ jobs:
 
       - name: Run EXIF metadata check
         run: |
-          bash scripts/check-exif.sh
+          bash scripts/check-exif.sh --strip
           if [ $? -ne 0 ]; then
-            echo "EXIF metadata found. Aborting build to prevent PII leaks."
-            exit 1
+            echo "EXIF metadata was found and has been stripped."
           fi
 
       - name: Build Hugo site
