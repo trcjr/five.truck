@@ -90,7 +90,7 @@ install-htmltest: ## 🛠️ Install htmltest locally
 new: ## ✏️ Create a new post with today’s date
 	@echo "📝 Creating new post titled: $(title)"
 	@DATE=$$(date +%Y-%m-%d); \
-	SLUG=$$(echo "$(title)" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]+/-/g' | sed 's/^-//' | sed 's/-$$//'); \
+	SLUG=$$(echo "$(title)" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$$//'); \
 	FILE=content/posts/$$DATE-$$SLUG/index.md; \
 	hugo new posts/$$DATE-$$SLUG/index.md && \
 	git add $$FILE && \
