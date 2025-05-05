@@ -1,13 +1,16 @@
-name: Build and Deploy Hugo Site from Main Branch
+name: Deploy Develop Preview
 
 on:
   push:
     branches:
-      - main
+      - develop
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  build-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +28,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.147.1"  # Use a specific Hugo version to avoid issues with future releases
+          hugo-version: "0.147.1"
           extended: true
 
       - name: Show Hugo version and environment
@@ -68,12 +71,14 @@ jobs:
             echo "EXIF metadata was found and has been stripped."
           fi
 
-      - name: Build Hugo site
-        run: |
-          hugo --minify
+      - name: Build Hugo site with baseURL "/develop/"
+        run: hugo --baseURL="https://trcjr.github.io/five.truck/develop/" --destination=public --minify
 
       - name: Debug public directory contents
         run: |
+          echo "Full file list (recursive):"
+          find ./public
+
           echo "Checking if public/ exists:"
           if [ -d "./public" ]; then
             echo "public/ directory exists"
@@ -85,26 +90,39 @@ jobs:
           echo "Contents of public/ directory:"
           ls -lah ./public
 
-          echo "Full file list (recursive):"
-          find ./public
-
           echo "Total files:"
           find ./public -type f | wc -l
 
           echo "Disk usage:"
           du -sh ./public
 
+      - name: Check baseURL in rendered HTML
+        run: |
+          grep -i '<link rel="canonical"' public/develop/index.html || echo "Canonical link not found"
+
+      - name: Confirm build output exists
+        run: |
+          if [ -d public ]; then
+            echo "✅ public/ directory exists"
+          else
+            echo "❌ public/ directory is missing!"
+            exit 1
+          fi
+
+      - name: Inspect sitemap
+        run: |
+          cat public/develop/sitemap.xml | grep "<loc>" || echo "No sitemap found"
+
       - name: Display .gitignore (if exists)
         run: cat .gitignore || echo ".gitignore not found"
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages under /develop/
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./public
           publish_branch: gh-pages
-          destination_dir: .
-          force_orphan: false  # Do not clear gh-pages branch, preserve develop/
+          publish_dir: ./public
+          force_orphan: false
           user_name: "GitHub Actions"
           user_email: "actions@github.com"
-          commit_message: "Deploy from main: ${{ github.sha }}"
+          commit_message: "Deploy from develop: ${{ github.sha }}"

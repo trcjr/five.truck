@@ -1,0 +1,22 @@
+name: Cleanup Merged Branches
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Runs every Sunday at 3 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  delete-merged-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+
+      - name: Delete merged branches
+        uses: peter-evans/delete-merged-branch@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          delete_closed_pr: true
