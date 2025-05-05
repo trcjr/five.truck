@@ -1,15 +1,18 @@
-.PHONY: help serve build check-exif strip-exif strip link-check check-warnings check-drafts lint-inclusive-language preflight ci test format
+.PHONY: help serve build check-exif strip-exif strip link-check check-warnings check-drafts lint-inclusive-language check-metadata preflight ci test format
 
 ##@ 🧪 Verification
 
-preflight: build install-htmltest check-exif link-check check-warnings check-drafts lint-inclusive-language ## Run local verification before pushing
+preflight: build install-htmltest check-exif link-check check-warnings check-drafts lint-inclusive-language check-metadata ## Run local verification before pushing
 	pre-commit run --all-files || (echo "❌ Pre-commit hooks failed." && exit 1)
 	@echo "✅ Preflight checklist complete. Ready for takeoff!"
 
 ci: preflight ## Run all checks exactly as CI does
 
-test: check-exif link-check check-warnings check-drafts ## Run local tests (non-lint)
+test: check-exif link-check check-warnings check-drafts check-metadata ## Run local tests (non-lint)
 	@echo "✅ Basic tests complete."
+
+check-metadata: ## Validate frontmatter metadata in content files
+	bash scripts/check-metadata.sh
 
 check-exif: ## Run the EXIF metadata checker script
 	bash scripts/check-exif.sh
