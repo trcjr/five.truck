@@ -96,6 +96,23 @@ jobs:
           echo "Disk usage:"
           du -sh ./public/develop
 
+      - name: Check baseURL in rendered HTML
+        run: |
+          grep -i '<link rel="canonical"' public/develop/index.html || echo "Canonical link not found"
+
+      - name: Check for leaked /develop/ in root
+        run: |
+          if find public -maxdepth 1 -type d -name develop | grep -q .; then
+            echo "/develop/ exists only at the right place"
+          else
+            echo "🚨 ERROR: /develop/ may have leaked into wrong location"
+            exit 1
+          fi
+
+      - name: Inspect sitemap
+        run: |
+          cat public/develop/sitemap.xml | grep "<loc>" || echo "No sitemap found"
+
       - name: Display .gitignore (if exists)
         run: cat .gitignore || echo ".gitignore not found"
 
