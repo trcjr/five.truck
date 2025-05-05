@@ -76,25 +76,25 @@ jobs:
 
       - name: Debug public directory contents
         run: |
-          echo "Checking if public/develop/ exists:"
-          if [ -d "./public/develop" ]; then
-            echo "public/develop/ directory exists"
+          echo "Checking if public/ exists:"
+          if [ -d "./public" ]; then
+            echo "public/ directory exists"
           else
-            echo "ERROR: public/develop/ directory is missing!"
+            echo "ERROR: public/ directory is missing!"
             exit 1
           fi
 
-          echo "Contents of public/develop/ directory:"
-          ls -lah ./public/develop
+          echo "Contents of public/ directory:"
+          ls -lah ./public
 
           echo "Full file list (recursive):"
-          find ./public/develop
+          find ./public
 
           echo "Total files:"
-          find ./public/develop -type f | wc -l
+          find ./public -type f | wc -l
 
           echo "Disk usage:"
-          du -sh ./public/develop
+          du -sh ./public
 
       - name: Check baseURL in rendered HTML
         run: |
