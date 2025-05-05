@@ -1,4 +1,4 @@
-.PHONY: help serve build check-exif strip-exif strip link-check check-warnings check-drafts lint-inclusive-language check-metadata preflight ci test format
+.PHONY: help serve serve-develop build build-develop check-exif strip-exif strip link-check check-warnings check-drafts lint-inclusive-language check-metadata preflight ci test format
 
 ##@ 🧪 Verification
 
@@ -90,8 +90,19 @@ install-htmltest: ## Install htmltest locally into ./bin
 serve: ## Run Hugo server with drafts and renderToMemory
 	hugo serve -D --renderToMemory
 
+
+serve-develop: ## Run Hugo server for develop preview build
+	hugo server --baseURL="http://localhost:1313/develop/" --renderToMemory -D
+
+serve-develop-static: build-develop ## Serve the /develop/ site statically at localhost:8000/develop/
+	@echo "📦 Serving static site from public/"
+	@python3 -m http.server 8000 --directory public
+
 build: ## Build the site with minification
 	hugo --minify
+
+build-develop: ## Build the site for develop preview
+	hugo --baseURL="/develop/" --destination=public/develop --minify
 
 clean: ## Remove generated files
 	rm -rf public/ resources/ .hugo_build.lock
