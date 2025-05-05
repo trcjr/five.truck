@@ -3,6 +3,7 @@
 ##@ 🧪 Verification
 
 preflight: build install-htmltest check-exif link-check check-warnings check-drafts lint-inclusive-language ## Run local verification before pushing
+	pre-commit run --all-files || (echo "❌ Pre-commit hooks failed." && exit 1)
 	@echo "✅ Preflight checklist complete. Ready for takeoff!"
 
 ci: preflight ## Run all checks exactly as CI does
@@ -23,7 +24,7 @@ link-check: ## Check for broken links using htmltest
 	  echo "🔧 htmltest not found. Installing..."; \
 	  $(MAKE) install-htmltest; \
 	fi
-	@./bin/htmltest || echo "⚠️  Link check completed with warnings"
+	@./bin/htmltest || (echo "❌ Link check failed!" && exit 1)
 
 check-warnings: ## Fail if Hugo emits any warnings
 	@! hugo --minify 2>&1 | tee /tmp/hugo-build.log | grep -v 'schema_json' | grep -q "^WARN" && echo "✅ No critical Hugo warnings found." || (echo "❌ Hugo warnings detected:" && grep "^WARN" /tmp/hugo-build.log && exit 1)
